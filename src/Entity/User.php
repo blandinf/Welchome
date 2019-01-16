@@ -74,9 +74,15 @@ class User
      */
     private $reviews;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Bookmarks", mappedBy="user_id", orphanRemoval=true)
+     */
+    private $bookmarks;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
+        $this->bookmarks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -229,6 +235,37 @@ class User
             // set the owning side to null (unless already changed)
             if ($review->getUserId() === $this) {
                 $review->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Bookmarks[]
+     */
+    public function getBookmarks(): Collection
+    {
+        return $this->bookmarks;
+    }
+
+    public function addBookmark(Bookmarks $bookmark): self
+    {
+        if (!$this->bookmarks->contains($bookmark)) {
+            $this->bookmarks[] = $bookmark;
+            $bookmark->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookmark(Bookmarks $bookmark): self
+    {
+        if ($this->bookmarks->contains($bookmark)) {
+            $this->bookmarks->removeElement($bookmark);
+            // set the owning side to null (unless already changed)
+            if ($bookmark->getUserId() === $this) {
+                $bookmark->setUserId(null);
             }
         }
 
