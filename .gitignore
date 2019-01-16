@@ -18,3 +18,7 @@
 ###< symfony/web-server-bundle ###
 
 \.env
+
+\.idea/encodings\.xml
+
+\.idea/workspace\.xml
