@@ -79,10 +79,16 @@ class User
      */
     private $bookmarks;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="user_id")
+     */
+    private $reservations;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
         $this->bookmarks = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -266,6 +272,37 @@ class User
             // set the owning side to null (unless already changed)
             if ($bookmark->getUserId() === $this) {
                 $bookmark->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reservation[]
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): self
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations[] = $reservation;
+            $reservation->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): self
+    {
+        if ($this->reservations->contains($reservation)) {
+            $this->reservations->removeElement($reservation);
+            // set the owning side to null (unless already changed)
+            if ($reservation->getUserId() === $this) {
+                $reservation->setUserId(null);
             }
         }
 
