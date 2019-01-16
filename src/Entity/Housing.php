@@ -19,18 +19,6 @@ class Housing
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Owner", inversedBy="housings")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $owner_id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Address")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $address_id;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -43,32 +31,32 @@ class Housing
     /**
      * @ORM\Column(type="integer")
      */
-    private $max_traveler;
+    private $maxTraveler;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $bathroom_number;
+    private $bathroomNumber;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $default_price;
+    private $defaultPrice;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $min_days;
+    private $minDays;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $traveler_number;
+    private $travelerSupp;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $supp_price;
+    private $suppPrice;
 
     /**
      * @ORM\Column(type="integer")
@@ -76,54 +64,62 @@ class Housing
     private $area;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Photo", mappedBy="housing_id", orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Owner", inversedBy="housings")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $photos;
+    private $owner;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Bedroom", mappedBy="housing_id", orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="housings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $address;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Alert", mappedBy="housing", orphanRemoval=true)
+     */
+    private $alerts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="housing", orphanRemoval=true)
+     */
+    private $bookings;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Review", mappedBy="housing", orphanRemoval=true)
+     */
+    private $reviews;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Bedroom", mappedBy="housing", orphanRemoval=true)
      */
     private $bedrooms;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Review", mappedBy="housing_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Photo", mappedBy="housing", orphanRemoval=true)
      */
-    private $reviews;
+    private $photos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\HousingEquipment", mappedBy="housing", orphanRemoval=true)
+     */
+    private $housingEquipment;
+
+    
 
     public function __construct()
     {
-        $this->photos = new ArrayCollection();
-        $this->bedrooms = new ArrayCollection();
+        $this->alerts = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->bedrooms = new ArrayCollection();
+        $this->photos = new ArrayCollection();
+        $this->housingEquipment = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getOwnerId(): ?Owner
-    {
-        return $this->owner_id;
-    }
-
-    public function setOwnerId(?Owner $owner_id): self
-    {
-        $this->owner_id = $owner_id;
-
-        return $this;
-    }
-
-    public function getAddressId(): ?Address
-    {
-        return $this->address_id;
-    }
-
-    public function setAddressId(?Address $address_id): self
-    {
-        $this->address_id = $address_id;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -152,72 +148,72 @@ class Housing
 
     public function getMaxTraveler(): ?int
     {
-        return $this->max_traveler;
+        return $this->maxTraveler;
     }
 
-    public function setMaxTraveler(int $max_traveler): self
+    public function setMaxTraveler(int $maxTraveler): self
     {
-        $this->max_traveler = $max_traveler;
+        $this->maxTraveler = $maxTraveler;
 
         return $this;
     }
 
     public function getBathroomNumber(): ?int
     {
-        return $this->bathroom_number;
+        return $this->bathroomNumber;
     }
 
-    public function setBathroomNumber(int $bathroom_number): self
+    public function setBathroomNumber(int $bathroomNumber): self
     {
-        $this->bathroom_number = $bathroom_number;
+        $this->bathroomNumber = $bathroomNumber;
 
         return $this;
     }
 
     public function getDefaultPrice(): ?float
     {
-        return $this->default_price;
+        return $this->defaultPrice;
     }
 
-    public function setDefaultPrice(float $default_price): self
+    public function setDefaultPrice(float $defaultPrice): self
     {
-        $this->default_price = $default_price;
+        $this->defaultPrice = $defaultPrice;
 
         return $this;
     }
 
     public function getMinDays(): ?int
     {
-        return $this->min_days;
+        return $this->minDays;
     }
 
-    public function setMinDays(int $min_days): self
+    public function setMinDays(int $minDays): self
     {
-        $this->min_days = $min_days;
+        $this->minDays = $minDays;
 
         return $this;
     }
 
-    public function getTravelerNumber(): ?int
+    public function getTravelerSupp(): ?int
     {
-        return $this->traveler_number;
+        return $this->travelerSupp;
     }
 
-    public function setTravelerNumber(int $traveler_number): self
+    public function setTravelerSupp(int $travelerSupp): self
     {
-        $this->traveler_number = $traveler_number;
+        $this->travelerSupp = $travelerSupp;
 
         return $this;
     }
 
     public function getSuppPrice(): ?float
     {
-        return $this->supp_price;
+        return $this->suppPrice;
     }
 
-    public function setSuppPrice(float $supp_price): self
+    public function setSuppPrice(float $suppPrice): self
     {
-        $this->supp_price = $supp_price;
+        $this->suppPrice = $suppPrice;
 
         return $this;
     }
@@ -234,31 +230,55 @@ class Housing
         return $this;
     }
 
-    /**
-     * @return Collection|Photo[]
-     */
-    public function getPhotos(): Collection
+    public function getOwner(): ?Owner
     {
-        return $this->photos;
+        return $this->owner;
     }
 
-    public function addPhoto(Photo $photo): self
+    public function setOwner(?Owner $owner): self
     {
-        if (!$this->photos->contains($photo)) {
-            $this->photos[] = $photo;
-            $photo->setHousingId($this);
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Alert[]
+     */
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
+    }
+
+    public function addAlert(Alert $alert): self
+    {
+        if (!$this->alerts->contains($alert)) {
+            $this->alerts[] = $alert;
+            $alert->setHousing($this);
         }
 
         return $this;
     }
 
-    public function removePhoto(Photo $photo): self
+    public function removeAlert(Alert $alert): self
     {
-        if ($this->photos->contains($photo)) {
-            $this->photos->removeElement($photo);
+        if ($this->alerts->contains($alert)) {
+            $this->alerts->removeElement($alert);
             // set the owning side to null (unless already changed)
-            if ($photo->getHousingId() === $this) {
-                $photo->setHousingId(null);
+            if ($alert->getHousing() === $this) {
+                $alert->setHousing(null);
             }
         }
 
@@ -266,30 +286,30 @@ class Housing
     }
 
     /**
-     * @return Collection|Bedroom[]
+     * @return Collection|Booking[]
      */
-    public function getBedrooms(): Collection
+    public function getBookings(): Collection
     {
-        return $this->bedrooms;
+        return $this->bookings;
     }
 
-    public function addBedroom(Bedroom $bedroom): self
+    public function addBooking(Booking $booking): self
     {
-        if (!$this->bedrooms->contains($bedroom)) {
-            $this->bedrooms[] = $bedroom;
-            $bedroom->setHousingId($this);
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setHousing($this);
         }
 
         return $this;
     }
 
-    public function removeBedroom(Bedroom $bedroom): self
+    public function removeBooking(Booking $booking): self
     {
-        if ($this->bedrooms->contains($bedroom)) {
-            $this->bedrooms->removeElement($bedroom);
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
             // set the owning side to null (unless already changed)
-            if ($bedroom->getHousingId() === $this) {
-                $bedroom->setHousingId(null);
+            if ($booking->getHousing() === $this) {
+                $booking->setHousing(null);
             }
         }
 
@@ -308,7 +328,7 @@ class Housing
     {
         if (!$this->reviews->contains($review)) {
             $this->reviews[] = $review;
-            $review->setHousingId($this);
+            $review->setHousing($this);
         }
 
         return $this;
@@ -319,11 +339,106 @@ class Housing
         if ($this->reviews->contains($review)) {
             $this->reviews->removeElement($review);
             // set the owning side to null (unless already changed)
-            if ($review->getHousingId() === $this) {
-                $review->setHousingId(null);
+            if ($review->getHousing() === $this) {
+                $review->setHousing(null);
             }
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection|Bedroom[]
+     */
+    public function getBedrooms(): Collection
+    {
+        return $this->bedrooms;
+    }
+
+    public function addBedroom(Bedroom $bedroom): self
+    {
+        if (!$this->bedrooms->contains($bedroom)) {
+            $this->bedrooms[] = $bedroom;
+            $bedroom->setHousing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBedroom(Bedroom $bedroom): self
+    {
+        if ($this->bedrooms->contains($bedroom)) {
+            $this->bedrooms->removeElement($bedroom);
+            // set the owning side to null (unless already changed)
+            if ($bedroom->getHousing() === $this) {
+                $bedroom->setHousing(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Photo[]
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photo $photo): self
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos[] = $photo;
+            $photo->setHousing($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(Photo $photo): self
+    {
+        if ($this->photos->contains($photo)) {
+            $this->photos->removeElement($photo);
+            // set the owning side to null (unless already changed)
+            if ($photo->getHousing() === $this) {
+                $photo->setHousing(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HousingEquipment[]
+     */
+    public function getHousingEquipment(): Collection
+    {
+        return $this->housingEquipment;
+    }
+
+    public function addHousingEquipment(HousingEquipment $housingEquipment): self
+    {
+        if (!$this->housingEquipment->contains($housingEquipment)) {
+            $this->housingEquipment[] = $housingEquipment;
+            $housingEquipment->setHousing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHousingEquipment(HousingEquipment $housingEquipment): self
+    {
+        if ($this->housingEquipment->contains($housingEquipment)) {
+            $this->housingEquipment->removeElement($housingEquipment);
+            // set the owning side to null (unless already changed)
+            if ($housingEquipment->getHousing() === $this) {
+                $housingEquipment->setHousing(null);
+            }
+        }
+
+        return $this;
+    }
+    
+
 }
