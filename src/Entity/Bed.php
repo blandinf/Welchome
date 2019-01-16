@@ -22,10 +22,10 @@ class Bed
     private $type;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Bedroom", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Bedroom", inversedBy="beds")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $room_id;
+    private $bedroom;
 
     public function getId(): ?int
     {
@@ -44,14 +44,14 @@ class Bed
         return $this;
     }
 
-    public function getRoomId(): ?Bedroom
+    public function getBedroom(): ?Bedroom
     {
-        return $this->room_id;
+        return $this->bedroom;
     }
 
-    public function setRoomId(Bedroom $room_id): self
+    public function setBedroom(?Bedroom $bedroom): self
     {
-        $this->room_id = $room_id;
+        $this->bedroom = $bedroom;
 
         return $this;
     }
