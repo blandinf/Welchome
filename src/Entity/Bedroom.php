@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,42 +19,85 @@ class Bedroom
     private $id;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $type;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Housing", inversedBy="bedrooms")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $housing_id;
+    private $housing;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $common;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Bed", mappedBy="bedroom", orphanRemoval=true)
+     */
+    private $beds;
+    
+
+    public function __construct()
+    {
+        $this->beds = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getType(): ?bool
+    public function getHousing(): ?Housing
     {
-        return $this->type;
+        return $this->housing;
     }
 
-    public function setType(bool $type): self
+    public function setHousing(?Housing $housing): self
     {
-        $this->type = $type;
+        $this->housing = $housing;
 
         return $this;
     }
 
-    public function getHousingId(): ?Housing
+    public function getCommon(): ?bool
     {
-        return $this->housing_id;
+        return $this->common;
     }
 
-    public function setHousingId(?Housing $housing_id): self
+    public function setCommon(bool $common): self
     {
-        $this->housing_id = $housing_id;
+        $this->common = $common;
 
         return $this;
     }
+
+    /**
+     * @return Collection|Bed[]
+     */
+    public function getBeds(): Collection
+    {
+        return $this->beds;
+    }
+
+    public function addBed(Bed $bed): self
+    {
+        if (!$this->beds->contains($bed)) {
+            $this->beds[] = $bed;
+            $bed->setBedroom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBed(Bed $bed): self
+    {
+        if ($this->beds->contains($bed)) {
+            $this->beds->removeElement($bed);
+            // set the owning side to null (unless already changed)
+            if ($bed->getBedroom() === $this) {
+                $bed->setBedroom(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
