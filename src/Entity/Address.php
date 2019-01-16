@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,15 +19,9 @@ class Address
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=8)
      */
-    private $country_id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $street_number;
+    private $streetNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -35,38 +31,42 @@ class Address
     /**
      * @ORM\Column(type="string", length=10)
      */
-    private $postal_code;
+    private $postalCode;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=64)
      */
     private $city;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="addresses")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $country;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Housing", mappedBy="address", orphanRemoval=true)
+     */
+    private $housings;
+
+    public function __construct()
+    {
+        $this->housings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCountryId(): ?Country
+    public function getStreetNumber(): ?string
     {
-        return $this->country_id;
+        return $this->streetNumber;
     }
 
-    public function setCountryId(Country $country_id): self
+    public function setStreetNumber(string $streetNumber): self
     {
-        $this->country_id = $country_id;
-
-        return $this;
-    }
-
-    public function getStreetNumber(): ?int
-    {
-        return $this->street_number;
-    }
-
-    public function setStreetNumber(int $street_number): self
-    {
-        $this->street_number = $street_number;
+        $this->streetNumber = $streetNumber;
 
         return $this;
     }
@@ -83,14 +83,14 @@ class Address
         return $this;
     }
 
-    public function getPostalCode(): ?int
+    public function getPostalCode(): ?string
     {
-        return $this->postal_code;
+        return $this->postalCode;
     }
 
-    public function setPostalCode(int $postal_code): self
+    public function setPostalCode(string $postalCode): self
     {
-        $this->postal_code = $postal_code;
+        $this->postalCode = $postalCode;
 
         return $this;
     }
@@ -103,6 +103,49 @@ class Address
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Housing[]
+     */
+    public function getHousings(): Collection
+    {
+        return $this->housings;
+    }
+
+    public function addHousing(Housing $housing): self
+    {
+        if (!$this->housings->contains($housing)) {
+            $this->housings[] = $housing;
+            $housing->setAddress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHousing(Housing $housing): self
+    {
+        if ($this->housings->contains($housing)) {
+            $this->housings->removeElement($housing);
+            // set the owning side to null (unless already changed)
+            if ($housing->getAddress() === $this) {
+                $housing->setAddress(null);
+            }
+        }
 
         return $this;
     }
