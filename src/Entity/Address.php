@@ -17,7 +17,7 @@ class Address
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Country", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country")
      * @ORM\JoinColumn(nullable=false)
      */
     private $country_id;
