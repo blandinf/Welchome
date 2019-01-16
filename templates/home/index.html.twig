@@ -1,9 +1,60 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Accueil{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">
+{% endblock %}
 
 {% block body %}
     <section id="home_content">
+        <article id="search">
+            <h1 class="ml-4 mt-3">Réservez des logements</h1>
+            <div class="well">
+                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                {{ form_errors(form) }}
 
+                {{ form_label(form.where, "Où", {'label_attr': {'class': 'col-sm-2 control-label mt-1'}}) }}
+                {{ form_errors(form.where) }}
+                <div class="input-group mb-2 mx-3 w-75">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-map-marked-alt"></i></span>
+                    </div>
+                    {{ form_widget(form.where, {'attr': {'class': 'form-control p-3','placeholder':'Ibiza, Baléares, Espagne'}}) }}
+                </div>
+
+                {{ form_label(form.travelers, "Voyageurs", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                {{ form_errors(form.travelers) }}
+                <div class="input-group mb-2 mx-3 w-75">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-sort-numeric-up"></i></span>
+                    </div>
+                    {{ form_widget(form.travelers, {'attr': {'class': 'form-control p-3','placeholder':'Voyageurs'}}) }}
+                </div>
+
+                {{ form_label(form.start_date, "Arrivée", {'label_attr': {'class': 'col-sm-2 control-label mt-1'}}) }}
+                {{ form_errors(form.start_date) }}
+                <div class="input-group mb-2 mx-3 w-75">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
+                    </div>
+                    {{ form_widget(form.start_date, {'attr': {'class': 'form-control','placeholder':'Voyageurs'}}) }}
+                </div>
+
+                {{ form_label(form.end_date, "Départ", {'label_attr': {'class': 'col-sm-2 control-label mt-1'}}) }}
+                {{ form_errors(form.end_date) }}
+                <div class="input-group mb-2 mx-3 w-75">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
+                    </div>
+                    {{ form_widget(form.end_date, {'attr': {'class': 'form-control','placeholder':'Voyageurs'}}) }}
+                </div>
+
+                <div class="text-center mt-3">
+                    {{ form_widget(form.save, {'attr': {'class': 'btn btn-secondary'}}) }}
+                </div>
+                {#{{ form_rest(form) }}#}
+                {{ form_end(form) }}
+            </div>
+        </article>
     </section>
 {% endblock %}
