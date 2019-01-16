@@ -84,11 +84,17 @@ class User
      */
     private $reservations;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Alert", mappedBy="user_id", orphanRemoval=true)
+     */
+    private $alerts;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
         $this->bookmarks = new ArrayCollection();
         $this->reservations = new ArrayCollection();
+        $this->alerts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -303,6 +309,37 @@ class User
             // set the owning side to null (unless already changed)
             if ($reservation->getUserId() === $this) {
                 $reservation->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Alert[]
+     */
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
+    }
+
+    public function addAlert(Alert $alert): self
+    {
+        if (!$this->alerts->contains($alert)) {
+            $this->alerts[] = $alert;
+            $alert->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlert(Alert $alert): self
+    {
+        if ($this->alerts->contains($alert)) {
+            $this->alerts->removeElement($alert);
+            // set the owning side to null (unless already changed)
+            if ($alert->getUserId() === $this) {
+                $alert->setUserId(null);
             }
         }
 
