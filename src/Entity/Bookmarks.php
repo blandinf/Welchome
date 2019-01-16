@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,60 +17,42 @@ class Bookmarks
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Housing")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Housing")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $housing_id;
+    private $housing;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="bookmarks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
-
-    public function __construct()
-    {
-        $this->housing_id = new ArrayCollection();
-    }
+    private $user;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection|Housing[]
-     */
-    public function getHousingId(): Collection
+    public function getHousing(): ?Housing
     {
-        return $this->housing_id;
+        return $this->housing;
     }
 
-    public function addHousingId(Housing $housingId): self
+    public function setHousing(?Housing $housing): self
     {
-        if (!$this->housing_id->contains($housingId)) {
-            $this->housing_id[] = $housingId;
-        }
+        $this->housing = $housing;
 
         return $this;
     }
 
-    public function removeHousingId(Housing $housingId): self
+    public function getUser(): ?User
     {
-        if ($this->housing_id->contains($housingId)) {
-            $this->housing_id->removeElement($housingId);
-        }
-
-        return $this;
+        return $this->user;
     }
 
-    public function getUserId(): ?User
+    public function setUser(?User $user): self
     {
-        return $this->user_id;
-    }
-
-    public function setUserId(?User $user_id): self
-    {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
