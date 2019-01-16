@@ -85,10 +85,16 @@ class Housing
      */
     private $bedrooms;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Review", mappedBy="housing_id", orphanRemoval=true)
+     */
+    private $reviews;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
         $this->bedrooms = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -284,6 +290,37 @@ class Housing
             // set the owning side to null (unless already changed)
             if ($bedroom->getHousingId() === $this) {
                 $bedroom->setHousingId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Review[]
+     */
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function addReview(Review $review): self
+    {
+        if (!$this->reviews->contains($review)) {
+            $this->reviews[] = $review;
+            $review->setHousingId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReview(Review $review): self
+    {
+        if ($this->reviews->contains($review)) {
+            $this->reviews->removeElement($review);
+            // set the owning side to null (unless already changed)
+            if ($review->getHousingId() === $this) {
+                $review->setHousingId(null);
             }
         }
 
