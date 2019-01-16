@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/pages/connexion.css') }}">
+{% endblock %}
+
+{% block body %}
+    <section id="connexion_content">
+        <article id="sign_in">
+            <h1 class="ml-4 mt-3">Connexion</h1>
+            <div class="well">
+                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+                {{ form_errors(form) }}
+
+                {{ form_label(form.email, "Email", {'label_attr': {'class': 'mx-3 control-label mt-1'}}) }}
+                {{ form_errors(form.email) }}
+                <div class="input-group mb-2 mx-3 w-75">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control p-3','placeholder':'exemple@exemple.fr'}}) }}
+                </div>
+
+                {{ form_label(form.password, "Mot de passe", {'label_attr': {'class': 'mx-3 control-label mt-1'}}) }}
+                {{ form_errors(form.password) }}
+                <div class="input-group mb-2 mx-3 w-75">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-lock"></i></span>
+                    </div>
+                    {{ form_widget(form.password, {'attr': {'class': 'form-control p-3','placeholder':'Mot de passe'}}) }}
+                </div>
+
+                <div class="text-center mt-3">
+                    {{ form_widget(form.connect, {'attr': {'class': 'btn btn-secondary'}}) }}
+                </div>
+                {#{{ form_rest(form) }}#}
+                {{ form_end(form) }}
+            </div>
+        </article>
+    </section>
+{% endblock %}
