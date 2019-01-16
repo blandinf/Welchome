@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,7 +26,17 @@ class Equipment
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $icon;
+    private $iconUrl;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\HousingEquipment", mappedBy="equipment", orphanRemoval=true)
+     */
+    private $housingEquipment;
+
+    public function __construct()
+    {
+        $this->housingEquipment = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -43,14 +55,45 @@ class Equipment
         return $this;
     }
 
-    public function getIcon(): ?string
+    public function getIconUrl(): ?string
     {
-        return $this->icon;
+        return $this->iconUrl;
     }
 
-    public function setIcon(string $icon): self
+    public function setIconUrl(string $iconUrl): self
     {
-        $this->icon = $icon;
+        $this->iconUrl = $iconUrl;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HousingEquipment[]
+     */
+    public function getHousingEquipment(): Collection
+    {
+        return $this->housingEquipment;
+    }
+
+    public function addHousingEquipment(HousingEquipment $housingEquipment): self
+    {
+        if (!$this->housingEquipment->contains($housingEquipment)) {
+            $this->housingEquipment[] = $housingEquipment;
+            $housingEquipment->setEquipment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHousingEquipment(HousingEquipment $housingEquipment): self
+    {
+        if ($this->housingEquipment->contains($housingEquipment)) {
+            $this->housingEquipment->removeElement($housingEquipment);
+            // set the owning side to null (unless already changed)
+            if ($housingEquipment->getEquipment() === $this) {
+                $housingEquipment->setEquipment(null);
+            }
+        }
 
         return $this;
     }
