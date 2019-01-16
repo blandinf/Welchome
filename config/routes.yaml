@@ -1,3 +1,16 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+index:
+    path: /
+    controller: App\Controller\HomeController::show
+
+register:
+    path: /register
+    controller: App\Controller\UserController::index
+
+connexion:
+    path: /sign_in
+    controller: App\Controller\ConnexionController::show
+
