@@ -19,20 +19,20 @@ class User
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Address", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $address_id;
+    private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $firstname;
+    private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $lastname;
+    private $lastName;
 
     /**
      * @ORM\Column(type="string", length=14)
@@ -55,7 +55,7 @@ class User
     private $sex;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=60)
      */
     private $language;
 
@@ -67,34 +67,34 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $url_picture;
+    private $urlPicture;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Review", mappedBy="user_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Alert", mappedBy="user", orphanRemoval=true)
+     */
+    private $alerts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="user")
+     */
+    private $bookings;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Review", mappedBy="user")
      */
     private $reviews;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Bookmarks", mappedBy="user_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Bookmarks", mappedBy="user", orphanRemoval=true)
      */
     private $bookmarks;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Reservation", mappedBy="user_id")
-     */
-    private $reservations;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Alert", mappedBy="user_id", orphanRemoval=true)
-     */
-    private $alerts;
-
     public function __construct()
     {
+        $this->alerts = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->bookmarks = new ArrayCollection();
-        $this->reservations = new ArrayCollection();
-        $this->alerts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -102,38 +102,38 @@ class User
         return $this->id;
     }
 
-    public function getAddressId(): ?Address
+    public function getAddress(): ?Address
     {
-        return $this->address_id;
+        return $this->address;
     }
 
-    public function setAddressId(Address $address_id): self
+    public function setAddress(?Address $address): self
     {
-        $this->address_id = $address_id;
+        $this->address = $address;
 
         return $this;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFirstName(string $firstName): self
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function getLastName(): ?string
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
-    public function setLastname(string $lastname): self
+    public function setLastName(string $lastName): self
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -212,12 +212,74 @@ class User
 
     public function getUrlPicture(): ?string
     {
-        return $this->url_picture;
+        return $this->urlPicture;
     }
 
-    public function setUrlPicture(string $url_picture): self
+    public function setUrlPicture(string $urlPicture): self
     {
-        $this->url_picture = $url_picture;
+        $this->urlPicture = $urlPicture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Alert[]
+     */
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
+    }
+
+    public function addAlert(Alert $alert): self
+    {
+        if (!$this->alerts->contains($alert)) {
+            $this->alerts[] = $alert;
+            $alert->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlert(Alert $alert): self
+    {
+        if ($this->alerts->contains($alert)) {
+            $this->alerts->removeElement($alert);
+            // set the owning side to null (unless already changed)
+            if ($alert->getUser() === $this) {
+                $alert->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Booking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
+            // set the owning side to null (unless already changed)
+            if ($booking->getUser() === $this) {
+                $booking->setUser(null);
+            }
+        }
 
         return $this;
     }
@@ -234,7 +296,7 @@ class User
     {
         if (!$this->reviews->contains($review)) {
             $this->reviews[] = $review;
-            $review->setUserId($this);
+            $review->setUser($this);
         }
 
         return $this;
@@ -245,8 +307,8 @@ class User
         if ($this->reviews->contains($review)) {
             $this->reviews->removeElement($review);
             // set the owning side to null (unless already changed)
-            if ($review->getUserId() === $this) {
-                $review->setUserId(null);
+            if ($review->getUser() === $this) {
+                $review->setUser(null);
             }
         }
 
@@ -265,7 +327,7 @@ class User
     {
         if (!$this->bookmarks->contains($bookmark)) {
             $this->bookmarks[] = $bookmark;
-            $bookmark->setUserId($this);
+            $bookmark->setUser($this);
         }
 
         return $this;
@@ -276,70 +338,8 @@ class User
         if ($this->bookmarks->contains($bookmark)) {
             $this->bookmarks->removeElement($bookmark);
             // set the owning side to null (unless already changed)
-            if ($bookmark->getUserId() === $this) {
-                $bookmark->setUserId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Reservation[]
-     */
-    public function getReservations(): Collection
-    {
-        return $this->reservations;
-    }
-
-    public function addReservation(Reservation $reservation): self
-    {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations[] = $reservation;
-            $reservation->setUserId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReservation(Reservation $reservation): self
-    {
-        if ($this->reservations->contains($reservation)) {
-            $this->reservations->removeElement($reservation);
-            // set the owning side to null (unless already changed)
-            if ($reservation->getUserId() === $this) {
-                $reservation->setUserId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Alert[]
-     */
-    public function getAlerts(): Collection
-    {
-        return $this->alerts;
-    }
-
-    public function addAlert(Alert $alert): self
-    {
-        if (!$this->alerts->contains($alert)) {
-            $this->alerts[] = $alert;
-            $alert->setUserId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAlert(Alert $alert): self
-    {
-        if ($this->alerts->contains($alert)) {
-            $this->alerts->removeElement($alert);
-            // set the owning side to null (unless already changed)
-            if ($alert->getUserId() === $this) {
-                $alert->setUserId(null);
+            if ($bookmark->getUser() === $this) {
+                $bookmark->setUser(null);
             }
         }
 
