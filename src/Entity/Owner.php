@@ -22,10 +22,10 @@ class Owner
      * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Housing", mappedBy="owner_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Housing", mappedBy="owner", orphanRemoval=true)
      */
     private $housings;
 
@@ -39,14 +39,14 @@ class Owner
         return $this->id;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(User $user_id): self
+    public function setUser(User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
@@ -63,7 +63,7 @@ class Owner
     {
         if (!$this->housings->contains($housing)) {
             $this->housings[] = $housing;
-            $housing->setOwnerId($this);
+            $housing->setOwner($this);
         }
 
         return $this;
@@ -74,8 +74,8 @@ class Owner
         if ($this->housings->contains($housing)) {
             $this->housings->removeElement($housing);
             // set the owning side to null (unless already changed)
-            if ($housing->getOwnerId() === $this) {
-                $housing->setOwnerId(null);
+            if ($housing->getOwner() === $this) {
+                $housing->setOwner(null);
             }
         }
 
