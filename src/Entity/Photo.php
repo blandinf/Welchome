@@ -25,7 +25,7 @@ class Photo
      * @ORM\ManyToOne(targetEntity="App\Entity\Housing", inversedBy="photos")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $housing_id;
+    private $housing;
 
     public function getId(): ?int
     {
@@ -44,14 +44,14 @@ class Photo
         return $this;
     }
 
-    public function getHousingId(): ?Housing
+    public function getHousing(): ?Housing
     {
-        return $this->housing_id;
+        return $this->housing;
     }
 
-    public function setHousingId(?Housing $housing_id): self
+    public function setHousing(?Housing $housing): self
     {
-        $this->housing_id = $housing_id;
+        $this->housing = $housing;
 
         return $this;
     }
