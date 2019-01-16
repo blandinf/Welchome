@@ -17,7 +17,7 @@ class Review
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=512)
      */
     private $comment;
 
@@ -35,13 +35,13 @@ class Review
      * @ORM\ManyToOne(targetEntity="App\Entity\Housing", inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $housing_id;
+    private $housing;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     public function getId(): ?int
     {
@@ -84,26 +84,26 @@ class Review
         return $this;
     }
 
-    public function getHousingId(): ?Housing
+    public function getHousing(): ?Housing
     {
-        return $this->housing_id;
+        return $this->housing;
     }
 
-    public function setHousingId(?Housing $housing_id): self
+    public function setHousing(?Housing $housing): self
     {
-        $this->housing_id = $housing_id;
+        $this->housing = $housing;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
