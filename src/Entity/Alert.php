@@ -17,60 +17,60 @@ class Alert
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Housing")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Housing", inversedBy="alerts")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $housing_id;
+    private $housing;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="alerts")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TypeAlert")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $type_alert_id;
+    private $typeAlert;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getHousingId(): ?Housing
+    public function getHousing(): ?Housing
     {
-        return $this->housing_id;
+        return $this->housing;
     }
 
-    public function setHousingId(?Housing $housing_id): self
+    public function setHousing(?Housing $housing): self
     {
-        $this->housing_id = $housing_id;
+        $this->housing = $housing;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getTypeAlertId(): ?TypeAlert
+    public function getTypeAlert(): ?TypeAlert
     {
-        return $this->type_alert_id;
+        return $this->typeAlert;
     }
 
-    public function setTypeAlertId(?TypeAlert $type_alert_id): self
+    public function setTypeAlert(?TypeAlert $typeAlert): self
     {
-        $this->type_alert_id = $type_alert_id;
+        $this->typeAlert = $typeAlert;
 
         return $this;
     }
