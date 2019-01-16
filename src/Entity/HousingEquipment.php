@@ -17,42 +17,42 @@ class HousingEquipment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Housing")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Housing", inversedBy="housingEquipment")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $housing_id;
+    private $housing;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Equipment")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Equipment", inversedBy="housingEquipment")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $equipment_id;
+    private $equipment;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getHousingId(): ?Housing
+    public function getHousing(): ?Housing
     {
-        return $this->housing_id;
+        return $this->housing;
     }
 
-    public function setHousingId(?Housing $housing_id): self
+    public function setHousing(?Housing $housing): self
     {
-        $this->housing_id = $housing_id;
+        $this->housing = $housing;
 
         return $this;
     }
 
-    public function getEquipmentId(): ?Equipment
+    public function getEquipment(): ?Equipment
     {
-        return $this->equipment_id;
+        return $this->equipment;
     }
 
-    public function setEquipmentId(?Equipment $equipment_id): self
+    public function setEquipment(?Equipment $equipment): self
     {
-        $this->equipment_id = $equipment_id;
+        $this->equipment = $equipment;
 
         return $this;
     }
