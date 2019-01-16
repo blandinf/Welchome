@@ -17,7 +17,9 @@ class HomeController extends AbstractController
             ->add('where',TextType::class)
             ->add('start_date',DateType::class)
             ->add('end_date',DateType::class)
-            ->add('travelers',IntegerType::class)
+            ->add('adults',IntegerType::class)
+            ->add('childs',IntegerType::class)
+            ->add('babies',IntegerType::class)
             ->add('save',SubmitType::class,['label' => 'Rechercher'])
             ->getForm();
 

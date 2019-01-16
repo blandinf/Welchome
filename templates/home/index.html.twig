@@ -2,7 +2,7 @@
 
 {% block title %}Accueil{% endblock %}
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/css/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/pages/home.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -22,13 +22,31 @@
                     {{ form_widget(form.where, {'attr': {'class': 'form-control p-3','placeholder':'Ibiza, Baléares, Espagne'}}) }}
                 </div>
 
-                {{ form_label(form.travelers, "Voyageurs", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-                {{ form_errors(form.travelers) }}
+                {{ form_label(form.adults, "Adultes", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                {{ form_errors(form.adults) }}
                 <div class="input-group mb-2 mx-3 w-75">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-sort-numeric-up"></i></span>
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
                     </div>
-                    {{ form_widget(form.travelers, {'attr': {'class': 'form-control p-3','placeholder':'Voyageurs'}}) }}
+                    {{ form_widget(form.adults, {'attr': {'class': 'form-control p-3','placeholder':'Nombre d\'adultes'}}) }}
+                </div>
+
+                {{ form_label(form.childs, "Enfants", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+                {{ form_errors(form.childs) }}
+                <div class="input-group mb-2 mx-3 w-75">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-child"></i></span>
+                    </div>
+                    {{ form_widget(form.childs, {'attr': {'class': 'form-control p-3','placeholder':'Nombre d\'enfants'}}) }}
+                </div>
+
+                {{ form_label(form.babies, "Bébés", {'label_attr': {'class': 'col-sm-2 control-label mt-1'}}) }}
+                {{ form_errors(form.babies) }}
+                <div class="input-group mb-2 mx-3 w-75">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-baby"></i></span>
+                    </div>
+                    {{ form_widget(form.babies, {'attr': {'class': 'form-control','placeholder':'Nombre de bébés'}}) }}
                 </div>
 
                 {{ form_label(form.start_date, "Arrivée", {'label_attr': {'class': 'col-sm-2 control-label mt-1'}}) }}
