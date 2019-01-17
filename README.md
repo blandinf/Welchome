@@ -123,20 +123,20 @@ Le site est alors disponible à l'adresse indiqué dans le terminal ou l'invite 
 - E : En cours de développement
 - Vide : Non Commencé
 
-[F] Créer les entités
-[F] Créer un formulaire d'inscription
-[B] Créer un formulaire de connexion
-[A] Créer un formulaire de création de bien
-[F] Créer la page d'accueil
-[E] Créer un formulaire de recherche
-[F] Pouvoir visualiser les biens
-[F] Pouvoir visualiser un bien
-[  ] Pouvoir éditer un bien
-[  ] Pouvoir ajouter des photos à un bien
-[  ] Pouvoir ajouter des alertes
-[  ] Pouvoir ajouter des équipements à bien
-[  ] Pouvoir créer une chambre
-[  ] Pouvoir créer un lit
+- [F] Créer les entités
+- [F] Créer un formulaire d'inscription
+- [B] Créer un formulaire de connexion
+- [A] Créer un formulaire de création de bien
+- [F] Créer la page d'accueil
+- [E] Créer un formulaire de recherche
+- [F] Pouvoir visualiser les biens
+- [F] Pouvoir visualiser un bien
+- [  ] Pouvoir éditer un bien
+- [  ] Pouvoir ajouter des photos à un bien
+- [  ] Pouvoir ajouter des alertes
+- [  ] Pouvoir ajouter des équipements à bien
+- [  ] Pouvoir créer une chambre
+- [  ] Pouvoir créer un lit
 
 ## Testes
 
