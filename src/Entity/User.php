@@ -71,6 +71,7 @@ class User
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Alert", mappedBy="user", orphanRemoval=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $alerts;
 

@@ -70,7 +70,7 @@ class Housing
     private $owner;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="housings")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="housings",cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $address;
