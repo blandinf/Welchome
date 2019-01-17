@@ -8,6 +8,9 @@ security:
             security: false
         main:
             anonymous: true
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
 
             # activate different ways to authenticate
 

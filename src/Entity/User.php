@@ -19,7 +19,7 @@ class User
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Address")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $address;
