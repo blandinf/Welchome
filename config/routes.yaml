@@ -11,7 +11,7 @@ register:
     controller: App\Controller\UserController::index
 
 connexion:
-    path: /sign_in
+    path: /login
     controller: App\Controller\ConnexionController::show
 
 getHousings:
