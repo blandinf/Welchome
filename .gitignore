@@ -24,3 +24,5 @@
 \.idea/
 
 composer\.phar
+
+src/Migrations/
