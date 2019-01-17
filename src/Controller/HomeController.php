@@ -2,30 +2,28 @@
 
 namespace App\Controller;
 
+use App\Entity\Search;
+use App\Form\SearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 
 class HomeController extends AbstractController
 {
 
-    public function show()
+    public function show(Request $request)
     {
-        $form = $this->createFormBuilder()
-            ->add('where',TextType::class)
-            ->add('start_date',DateType::class)
-            ->add('end_date',DateType::class)
-            ->add('adults',IntegerType::class)
-            ->add('childs',IntegerType::class)
-            ->add('babies',IntegerType::class)
-            ->add('save',SubmitType::class,['label' => 'Rechercher'])
-            ->getForm();
+        $search = new Search();
+        $form = $this->createForm(SearchType::class, $search);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            dd($request->request);
+            return $this->redirectToRoute('connexion');
+        }
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
-            'form' => $form->createView(),
+            'searchForm' => $form->createView(),
         ]);
     }
 }
