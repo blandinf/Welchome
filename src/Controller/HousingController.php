@@ -34,6 +34,19 @@ class HousingController extends AbstractController
     }
 
     /**
+     * @Route("/housings", name="housings", methods={"GET"})
+     * @param HousingRepository $housingRepository
+     * @return Response
+     */
+    public function sendHousings(HousingRepository $housingRepository): Response
+    {
+        return $this->render('housing/index.html.twig', [
+            'housings' => $housingRepository->findAll(),
+        ]);
+    }
+
+
+    /**
      * @Route("/new", name="housing_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
