@@ -22,7 +22,7 @@ class HousingType extends AbstractType
             ->add('suppPrice')
             ->add('area')
             ->add('owner')
-            ->add('address')
+            ->add('address',AddressType::class)
         ;
     }
 
