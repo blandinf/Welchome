@@ -18,7 +18,13 @@ getHousings:
     path: /api/housings
     controller: App\Controller\HousingController::index
 
+getHousing:
+    path: /api/housing/{id}
+    controller: App\Controller\HousingController::indexOne
+
 indexHousings:
     path: /housings
     controller: App\Controller\HousingController::sendHousings
+
+
 
