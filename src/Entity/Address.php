@@ -39,7 +39,7 @@ class Address
     private $city;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="addresses")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="addresses",cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $country;
