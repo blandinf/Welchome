@@ -14,3 +14,7 @@ connexion:
     path: /sign_in
     controller: App\Controller\ConnexionController::show
 
+getHousings:
+    path: /housings
+    controller: App\Controller\HousingController::index
+
