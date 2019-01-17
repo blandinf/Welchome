@@ -34,6 +34,23 @@ class HousingController extends AbstractController
     }
 
     /**
+     * @Route("/{id}", name="housing_one_index", methods={"GET"})
+     * @param HousingRepository $housingRepository
+     * @return Response
+     */
+    public function indexOne(HousingRepository $housingRepository,$id): Response
+    {
+        $housing = $this->getDoctrine()->getRepository('App\Entity\Housing')->find($id);
+        $serializer = SerializerBuilder::create()->build();
+        $data = $serializer->serialize($housing,'json');
+
+        $response = new Response($data);
+        $response->headers->set('Content-Type','application/json');
+
+        return $response;
+    }
+
+    /**
      * @Route("/housings", name="housings", methods={"GET"})
      * @param HousingRepository $housingRepository
      * @return Response
