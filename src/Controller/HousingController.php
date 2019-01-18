@@ -123,7 +123,7 @@ class HousingController extends AbstractController
         }
 
         return $this->render('housing/edit.html.twig', [
-            'housing' => $housing->getId(),
+            'housing' => $housing,
             'form' => $form->createView(),
         ]);
     }
