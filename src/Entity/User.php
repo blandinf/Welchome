@@ -99,6 +99,11 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $roles = [];
+
     public function __construct()
     {
         $this->alerts = new ArrayCollection();
@@ -382,9 +387,23 @@ class User implements UserInterface
      *
      * @return (Role|string)[] The user roles
      */
+    /**
+     * @see UserInterface
+     */
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     /**
