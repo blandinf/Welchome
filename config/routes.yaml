@@ -1,3 +1,34 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+index:
+    path: /
+    controller: App\Controller\HomeController::show
+
+register:
+    path: /register
+    controller: App\Controller\UserController::index
+
+connexion:
+    path: /login
+    controller: App\Controller\ConnexionController::show
+
+getHousings:
+    path: /api/housings
+    controller: App\Controller\HousingController::index
+
+getHousing:
+    path: /api/housing/{id}
+    controller: App\Controller\HousingController::indexOne
+
+indexHousings:
+    path: /housings
+    controller: App\Controller\HousingController::sendHousings
+
+newHousings:
+    path: /housing_new
+    controller: App\Controller\HousingController::new
+
+
+
