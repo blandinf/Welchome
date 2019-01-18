@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 /**
  * @Route("/housing")
  */
@@ -63,9 +64,9 @@ class HousingController extends AbstractController
         ]);
     }
 
-
+    //
     /**
-     * @Route("/", name="housing_new", methods={"GET","POST"})
+     * @Route("/new", name="housing_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
@@ -88,6 +89,7 @@ class HousingController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 
     /**
      * @Route("/{id}", name="housing_show", methods={"GET"})
