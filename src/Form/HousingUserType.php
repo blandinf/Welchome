@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class HousingType extends AbstractType
+class HousingUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -25,7 +25,6 @@ class HousingType extends AbstractType
             ->add('suppPrice')
             ->add('area')
             ->add('address',AddressType::class)
-            ->add('owner')
         ;
     }
 
