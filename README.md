@@ -36,8 +36,10 @@ php bin/console make:form
 php bin/console make:crud
 ```
 
-Doctrine
+Database
 ``` bash
+# Update .env DATABASE_URL line
+DATABASE_URL=mysql://user:password@127.0.0.1:8889/db-name
 # Create database
 php bin/console doctrine:database:create
 # Load tables in database
