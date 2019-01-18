@@ -125,6 +125,7 @@ Le site est alors disponible à l'adresse indiqué dans le terminal ou l'invite 
 - E : En cours de développement
 - Vide : Non Commencé
 
+#### Taches à faire
 - [F] Créer les entités
 - [F] Créer un formulaire d'inscription
 - [B] Créer un formulaire de connexion
