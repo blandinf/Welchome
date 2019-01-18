@@ -104,20 +104,22 @@ class HousingController extends AbstractController
     /**
      * @Route("/{id}/edit", name="housing_edit", methods={"GET","POST"})
      * @param Request $request
-     * @param Housing $housing
      * @return Response
      */
-    public function edit(Request $request, Housing $housing): Response
+    public function edit(Request $request ,$id): Response
     {
+        $housing = $this->getDoctrine()->getRepository(Housing::class)->find($id);
         $form = $this->createForm(HousingType::class, $housing);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('housing_index', [
-                'id' => $housing->getId(),
-            ]);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($housing);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('indexHousings');
         }
 
         return $this->render('housing/edit.html.twig', [

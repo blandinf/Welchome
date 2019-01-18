@@ -30,5 +30,7 @@ newHousings:
     path: /housing_new
     controller: App\Controller\HousingController::new
 
+app_logout:
+    path: /logout
 
 
