@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\UserRepository;
+use App\Entity\Owner;
 
 
 /**
@@ -70,11 +72,31 @@ class HousingController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request,UserRepository $UserRepository): Response
     {
         $housing = new Housing();
         $form = $this->createForm(HousingType::class, $housing);
         $form->handleRequest($request);
+
+        //Owner search  according connected userId -- Begin
+        //Get the current connected user
+        $userId = $this->getUser()->getId();
+
+        //to test because registration doesn't work yet
+        //$userId = 1;
+
+
+        $user = $UserRepository->find($userId);
+
+        // Creation of the Owner according the UserId
+        $Owner = new Owner();
+        $Owner->setUser($user);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($Owner);
+        $entityManager->flush();
+
+        $housing->setOwner($Owner);
+        //ActorId search  according connected userId -- End
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
