@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Housing;
 use App\Form\HousingType;
 use App\Form\HousingEditType;
+use App\Form\HousingUserType;
+use App\Entity\Owner;
 use App\Repository\HousingRepository;
 use JMS\Serializer\SerializerBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,11 +68,11 @@ class HousingController extends AbstractController
 
 
     /**
-     * @Route("/new", name="housing_new", methods={"GET","POST"})
+     * @Route("/newadmin", name="housing_new_admin", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request): Response
+    public function newAdmin(Request $request): Response
     {
         $housing = new Housing();
         $form = $this->createForm(HousingType::class, $housing);
@@ -85,6 +87,41 @@ class HousingController extends AbstractController
         }
 
         return $this->render('housing/new.html.twig', [
+            'housing' => $housing,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/new", name="housing_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function new(Request $request): Response
+    {
+        $housing = new Housing();
+        $form = $this->createForm(HousingUserType::class, $housing);
+        $form->handleRequest($request);
+
+        $owner = new Owner();
+        $owner->setUser($this->getUser());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($owner);
+            $entityManager->flush();
+            $housing->setOwner($owner);
+            $entityManager->persist($housing);
+            $entityManager->flush();
+            $user = $this->getUser();
+            $userRoles = $user->getRoles();
+            array_push($userRoles, "ROLE_OWNER");
+            $user->setRoles($userRoles);
+            return $this->redirectToRoute('housing_index');
+        }
+
+        return $this->render('housing/new_user.html.twig', [
             'housing' => $housing,
             'form' => $form->createView(),
         ]);
