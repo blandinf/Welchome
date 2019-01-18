@@ -34,8 +34,9 @@ class HousingController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="housing_one_index", methods={"GET"})
+     * @Route("/api/{id}", name="housing_one_index", methods={"GET"})
      * @param HousingRepository $housingRepository
+     * @param $id
      * @return Response
      */
     public function indexOne(HousingRepository $housingRepository,$id): Response
@@ -64,7 +65,7 @@ class HousingController extends AbstractController
 
 
     /**
-     * @Route("/new", name="housing_new", methods={"GET","POST"})
+     * @Route("/", name="housing_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */

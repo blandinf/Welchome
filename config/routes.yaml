@@ -26,5 +26,9 @@ indexHousings:
     path: /housings
     controller: App\Controller\HousingController::sendHousings
 
+newHousings:
+    path: /housing_new
+    controller: App\Controller\HousingController::new
+
 
 
