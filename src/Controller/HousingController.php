@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Housing;
 use App\Form\HousingType;
+use App\Form\HousingEditType;
 use App\Repository\HousingRepository;
 use JMS\Serializer\SerializerBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -65,7 +66,7 @@ class HousingController extends AbstractController
 
 
     /**
-     * @Route("/", name="housing_new", methods={"GET","POST"})
+     * @Route("/new", name="housing_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
      */
@@ -102,7 +103,7 @@ class HousingController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="housing_edit", methods={"GET","POST"})
+     * @Route("/{id}/editadmin", name="housing_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Housing $housing
      * @return Response
@@ -121,6 +122,32 @@ class HousingController extends AbstractController
         }
 
         return $this->render('housing/edit.html.twig', [
+            'housing' => $housing,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/{id}/edit", name="housing_edit_user", methods={"GET","POST"})
+     * @param Request $request
+     * @param Housing $housing
+     * @return Response
+     */
+    public function editUser(Request $request, Housing $housing): Response
+    {
+        $form = $this->createForm(HousingEditType::class, $housing);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('index', [
+                'id' => $housing->getId(),
+            ]);
+        }
+
+        return $this->render('housing/edituser.html.twig', [
             'housing' => $housing,
             'form' => $form->createView(),
         ]);
