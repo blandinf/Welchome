@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Owner panel{% endblock %}
+
+{% block body %}
+    {% if is_granted('ROLE_OWNER') %}
+        <p>Owner panel</p>
+    {% elseif is_granted('ROLE_USER') %}
+        <h1>Devenir hôte</h1>
+        <h3>Pour devenir hôte, vous devez créer votre premier logement</h3>
+
+    {% endif %}
+{% endblock %}
