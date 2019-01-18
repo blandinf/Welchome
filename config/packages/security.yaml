@@ -18,6 +18,9 @@ security:
 
                 provider: user_provider
 
+            logout:
+                path:   app_logout
+
     encoders:
         App\Entity\User:
             algorithm: bcrypt
